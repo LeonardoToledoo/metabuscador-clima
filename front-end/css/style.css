@@ -1,0 +1,110 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#f6f7fb;
+color:#333;
+}
+
+header{
+text-align:center;
+padding:25px;
+background:white;
+border-bottom:1px solid #ddd;
+}
+
+.logo h1{
+color:#2f6fed;
+}
+
+.logo p{
+font-size:14px;
+color:#777;
+}
+
+.busca{
+margin-top:20px;
+}
+
+.busca input{
+width:400px;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+main{
+text-align:center;
+padding:40px;
+}
+
+.welcome h2{
+margin-bottom:10px;
+}
+
+.welcome p{
+color:#666;
+margin-bottom:40px;
+}
+
+.features{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-bottom:40px;
+}
+
+.card{
+background:white;
+padding:25px;
+width:220px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+.card h3{
+margin-bottom:10px;
+}
+
+.card p{
+font-size:14px;
+color:#666;
+}
+
+.cidades p{
+margin-bottom:10px;
+color:#666;
+}
+
+.botao-cidades{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.botao-cidades button{
+padding:8px 15px;
+border-radius:6px;
+border:1px solid #ccc;
+background:white;
+cursor:pointer;
+}
+
+.botao-cidades button:hover{
+background:#f0f0f0;
+}
+
+footer{
+text-align:center;
+padding:20px;
+margin-top:50px;
+font-size:13px;
+color:#777;
+border-top:1px solid #ddd;
+background:white;
+}

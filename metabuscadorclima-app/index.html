@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MetaClima | Metabuscador de Clima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <header class="top-header container">
+    <div>
+      <h1 class="brand">MetaClima</h1>
+      <p class="subtitle">Compare previsões de múltiplas fontes</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="search-section" aria-label="Busca de cidade">
+      <form id="searchForm" class="search-form" autocomplete="off">
+        <div class="search-field">
+          <label for="countryInput" class="search-label">País</label>
+          <div class="combo-box" data-combobox="country">
+            <div class="search-input-wrap">
+              <span class="search-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                  <path d="M20 20L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <input
+                id="countryInput"
+                name="country"
+                type="text"
+                placeholder="Selecione um país"
+                role="combobox"
+                aria-expanded="false"
+                aria-autocomplete="list"
+                aria-controls="countryDropdown"
+                autocomplete="off"
+              />
+            </div>
+            <div id="countryDropdown" class="combo-dropdown hidden" role="listbox"></div>
+          </div>
+        </div>
+
+        <div class="search-field">
+          <label for="stateInput" class="search-label">Estado</label>
+          <div class="combo-box" data-combobox="state">
+            <div class="search-input-wrap is-disabled">
+              <span class="search-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                  <path d="M20 20L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <input
+                id="stateInput"
+                name="state"
+                type="text"
+                placeholder="Selecione um estado"
+                role="combobox"
+                aria-expanded="false"
+                aria-autocomplete="list"
+                aria-controls="stateDropdown"
+                autocomplete="off"
+                disabled
+              />
+            </div>
+            <div id="stateDropdown" class="combo-dropdown hidden" role="listbox"></div>
+          </div>
+        </div>
+
+        <div class="search-field">
+          <label for="cityInput" class="search-label">Cidade</label>
+          <div class="combo-box" data-combobox="city">
+            <div class="search-input-wrap is-disabled">
+              <span class="search-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                  <path d="M20 20L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <input
+                id="cityInput"
+                name="city"
+                type="text"
+                placeholder="Selecione uma cidade"
+                role="combobox"
+                aria-expanded="false"
+                aria-autocomplete="list"
+                aria-controls="cityDropdown"
+                autocomplete="off"
+                disabled
+              />
+            </div>
+            <div id="cityDropdown" class="combo-dropdown hidden" role="listbox"></div>
+          </div>
+        </div>
+
+        <button id="searchButton" type="submit" class="btn-primary" disabled>Buscar clima</button>
+      </form>
+    </section>
+
+    <section id="heroState" class="hero-state" aria-live="polite">
+      <div class="hero-icon" aria-hidden="true">☁</div>
+      <h2>Bem-vindo ao MetaClima</h2>
+      <p>
+        Pesquise por qualquer cidade e compare as previsões do tempo de múltiplas fontes
+        meteorológicas em um só lugar.
+      </p>
+
+      <div class="info-cards" role="list">
+        <article class="info-card" role="listitem">
+          <div class="card-icon">◎</div>
+          <h3>Múltiplas Fontes</h3>
+          <p>Compare dados de diferentes serviços meteorológicos</p>
+        </article>
+        <article class="info-card" role="listitem">
+          <div class="card-icon">◌</div>
+          <h3>Dados Precisos</h3>
+          <p>Informações detalhadas sobre temperatura, umidade e mais</p>
+        </article>
+        <article class="info-card" role="listitem">
+          <div class="card-icon">⌕</div>
+          <h3>Busca Fácil</h3>
+          <p>Encontre rapidamente a cidade que você procura</p>
+        </article>
+      </div>
+
+      <section class="popular-cities" aria-label="Cidades populares">
+        <h3>Cidades populares</h3>
+        <div class="chips">
+          <button type="button" class="chip" data-country="Brasil" data-state="São Paulo" data-city="São Paulo">São Paulo</button>
+          <button type="button" class="chip" data-country="Brasil" data-state="Rio de Janeiro" data-city="Rio de Janeiro">Rio de Janeiro</button>
+          <button type="button" class="chip" data-country="Brasil" data-state="Distrito Federal" data-city="Brasília">Brasília</button>
+          <button type="button" class="chip" data-country="Brasil" data-state="Rio Grande do Sul" data-city="Porto Alegre">Porto Alegre</button>
+          <button type="button" class="chip" data-country="Brasil" data-state="Amazonas" data-city="Manaus">Manaus</button>
+        </div>
+      </section>
+    </section>
+
+    <section id="loadingState" class="loading-state hidden" aria-live="polite" aria-label="Carregando dados">
+      <div class="spinner"></div>
+      <p>Consultando Open-Meteo e WeatherAPI...</p>
+      <div class="skeleton-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </section>
+
+    <section id="errorState" class="error-state hidden" aria-live="assertive">
+      <h2>Não foi possível concluir a busca</h2>
+      <p id="errorMessage">Ocorreu um erro ao consultar as fontes climáticas.</p>
+      <button id="retryBtn" type="button" class="btn-secondary">Tentar novamente</button>
+    </section>
+
+    <section id="resultsState" class="results-state hidden" aria-live="polite">
+      <div id="resultHeader" class="result-header"></div>
+      <div id="sourcesSummary" class="result-summary"></div>
+      <div id="sourcesCards" class="weather-cards-grid"></div>
+      <div class="result-actions">
+        <button id="backSearchButton" type="button" class="back-search-button">Buscar outra cidade</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <p>MetaClima - Agregador de previsões meteorológicas</p>
+    <p>Projeto acadêmico para demonstração de integração e consolidação de dados climáticos.</p>
+  </footer>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/utils.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/ui.js"></script>
+  <script src="./js/search-select.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

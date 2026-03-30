@@ -1,0 +1,1 @@
+window.METACLIMA_API_BASE_URL = window.METACLIMA_API_BASE_URL || "/api";

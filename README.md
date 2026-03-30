@@ -7,59 +7,69 @@ Consulta duas fontes meteorológicas (Open-Meteo e WeatherAPI), normaliza os dad
 
 O backend segue estilo **Clean Architecture** com camadas bem definidas:
 
-- **`metabuscadorclima.api/src/main/java/com/metaclima/backend/domain`**: regras de negócio, contratos e casos de uso
-- **`metabuscadorclima.api/src/main/java/com/metaclima/backend/application`**: ponto de inicialização e configuração da aplicação
-- **`metabuscadorclima.api/src/main/java/com/metaclima/backend/adapter/entrypoint`**: pontos de entrada HTTP (controllers)
-- **`metabuscadorclima.api/src/main/java/com/metaclima/backend/gateway`**: implementações de integração com APIs externas
+- **`metabuscadorclima-api/src/main/java/domain`**: núcleo da aplicação, DTOs de domínio, exceções e portas
+- **`metabuscadorclima-api/src/main/java/application`**: casos de uso, configurações e serviços de orquestração
+- **`metabuscadorclima-api/src/main/java/adapter/entrypoint`**: pontos de entrada HTTP (controllers)
+- **`metabuscadorclima-api/src/main/java/adapter/outbound`**: integrações concretas com APIs externas, mapeadores e provedores
 
 ### Padrão de pacotes de controller
 
-- **Pacote**: `com.metaclima.backend.adapter.entrypoint.controller.{modulo}.{funcionalidade}`
-- **Nomenclatura**: `{Operacao}{Entidade}Controller`
-- Exemplo implementado: `SearchWeatherController`
+- **Pacote**: `adapter.entrypoint.controller.{module}.{feature}`
+- **Nomenclatura**: `{Operation}{Entity}Controller`
+- Exemplos implementados:
+  - `SearchWeatherController`
+  - `SearchLocationController`
+  - `GetHealthController`
 
 ### Classes de apoio obrigatórias (implementadas)
 
-- `SearchWeatherInputData` (input do UseCase)
-- `SearchWeatherOutputData` (output do UseCase)
+- `SearchWeatherInput` (input do use case)
+- `SearchWeatherOutput` (output do use case)
+- `SearchLocationInput` (input do use case)
+- `SearchLocationOutput` (output do use case)
 
 ### Fluxo obrigatório (implementado)
 
-`HTTP Request → Controller → UseCase → DataProvider → Response`
+`HTTP Request → Controller → UseCase → Port → Provider → Response`
 
 No endpoint principal:
 1. Controller recebe requisição REST.
-2. Controller cria `SearchWeatherInputData`.
+2. Controller cria `SearchWeatherInput`.
 3. Controller chama `useCase.executar(inputData)`.
-4. UseCase chama `WeatherSearchDataProvider`.
-5. DataProvider integra Open-Meteo + WeatherAPI, normaliza e consolida.
-6. Controller retorna `SearchWeatherOutputData`.
+4. UseCase chama `WeatherSearchPort`.
+5. Provider integra Open-Meteo + WeatherAPI, normaliza e consolida.
+6. Controller retorna `SearchWeatherOutput`.
 
 ## 2) Estrutura de pastas
 
 ```text
 .
-├── metabuscadorclima.api
+├── metabuscadorclima-api
 │   ├── Dockerfile
 │   ├── pom.xml
 │   └── src
 │       ├── main
-│       │   ├── java/com/metaclima/backend
-│       │   │   ├── adapter/entrypoint/controller
-│       │   │   ├── domain
-│       │   │   ├── gateway
-│       │   │   ├── config
-│       │   │   ├── dto
-│       │   │   ├── exception
-│       │   │   ├── integration/client
-│       │   │   ├── mapper
-│       │   │   └── service
+│       │   ├── java
+│       │   │   ├── adapter
+│       │   │   │   ├── entrypoint/controller
+│       │   │   │   └── outbound
+│       │   │   │       ├── client
+│       │   │   │       ├── mapper
+│       │   │   │       └── provider
+│       │   │   ├── application
+│       │   │   │   ├── config
+│       │   │   │   ├── service
+│       │   │   │   └── usecase
+│       │   │   └── domain
+│       │   │       ├── dto
+│       │   │       ├── exception
+│       │   │       └── port
 │       │   └── resources/application.yml
-│       └── test/java/com/metaclima/backend
+│       └── test/java
 │           ├── controller
 │           ├── mapper
 │           └── service
-├── metabuscadorclima.app
+├── metabuscadorclima-app
 │   ├── Dockerfile
 │   ├── index.html
 │   ├── nginx.conf
@@ -96,6 +106,15 @@ No endpoint principal:
 - `GET /api/locations/cities?country=Brasil&state=Mato%20Grosso%20do%20Sul&q=cam`
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 
+### Principais classes do back-end
+- `application/MetaClimaApplication`
+- `application/usecase/weather/search/SearchWeatherUseCase`
+- `application/usecase/location/search/SearchLocationUseCase`
+- `domain/port/WeatherSearchPort`
+- `domain/port/LocationSearchPort`
+- `adapter/outbound/provider/ExternalWeatherSearchProvider`
+- `adapter/outbound/provider/ExternalLocationSearchProvider`
+
 ### Formato de resposta do endpoint principal
 - `query`
 - `location`
@@ -116,7 +135,7 @@ No endpoint principal:
 
 ## 4) Front-end (HTML/CSS/JS puro)
 
-Observação: o front legado foi unificado e agora há somente `metabuscadorclima.app/index.html`.
+Observação: o front legado foi unificado e agora há somente `metabuscadorclima-app/index.html`.
 
 ### Características
 - Home estilo landing page acadêmica (clean, centralizada, azul + cinza claro).
@@ -135,7 +154,7 @@ Observação: o front legado foi unificado e agora há somente `metabuscadorclim
   - mensagens claras
 
 ### Configuração da URL da API no front
-Arquivos: `metabuscadorclima.app/js/config.js` e `metabuscadorclima.app/js/api.js`
+Arquivos: `metabuscadorclima-app/js/config.js` e `metabuscadorclima-app/js/api.js`
 ```js
 // config.js
 window.METACLIMA_API_BASE_URL = window.METACLIMA_API_BASE_URL || "/api";
@@ -156,7 +175,7 @@ const API_CONFIG = {
 
 ### Back-end
 ```bash
-cd metabuscadorclima.api
+cd metabuscadorclima-api
 export WEATHERAPI_KEY=sua_chave_weatherapi
 export CSCAPI_KEY=sua_chave_countrystatecity
 export SERVER_PORT=8080
@@ -166,10 +185,10 @@ mvn spring-boot:run
 ### Front-end
 Use qualquer servidor estático. Exemplo:
 ```bash
-cd metabuscadorclima.app
+cd metabuscadorclima-app
 python3 -m http.server 8081
 ```
-Se usar servidor estático simples (sem proxy), ajuste `metabuscadorclima.app/js/config.js` para:
+Se usar servidor estático simples (sem proxy), ajuste `metabuscadorclima-app/js/config.js` para:
 ```js
 window.METACLIMA_API_BASE_URL = "http://localhost:8080/api";
 ```
@@ -281,13 +300,13 @@ Back-end:
 
 Comando:
 ```bash
-cd metabuscadorclima.api
+cd metabuscadorclima-api
 mvn test
 ```
 
 Observação: neste ambiente, a execução foi validada com:
 ```bash
-cd metabuscadorclima.api
+cd metabuscadorclima-api
 mvn -Dmaven.repo.local=/tmp/metaclima-m2 test
 ```
 

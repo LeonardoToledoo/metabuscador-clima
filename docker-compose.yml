@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./metabuscadorclima.api
+      context: ./metabuscadorclima-api
       dockerfile: Dockerfile
     environment:
       WEATHERAPI_KEY: ${WEATHERAPI_KEY}
@@ -13,7 +13,7 @@ services:
 
   frontend:
     build:
-      context: ./metabuscadorclima.app
+      context: ./metabuscadorclima-app
       dockerfile: Dockerfile
     ports:
       - "8081:80"

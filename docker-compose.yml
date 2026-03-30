@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      context: ./metabuscadorclima-api
+      dockerfile: Dockerfile
+    environment:
+      WEATHERAPI_KEY: ${WEATHERAPI_KEY}
+      CSCAPI_KEY: ${CSCAPI_KEY}
+      SERVER_PORT: 8080
+      FRONTEND_URL: http://localhost:8081
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./metabuscadorclima-app
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
